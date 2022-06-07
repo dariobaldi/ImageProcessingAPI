@@ -4,11 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const index_1 = __importDefault(require("./routes/index"));
 const app = (0, express_1.default)();
 const port = 5050;
 app.get('/', (_req, res) => {
     res.status(200).send('The server is working');
 });
+app.use('/api', index_1.default);
 app.listen(port, () => {
     console.log(`ImageProcessingAPI app listening in port ${port}`);
 });
+const test = () => {
+    return 5;
+};
+exports.default = test;

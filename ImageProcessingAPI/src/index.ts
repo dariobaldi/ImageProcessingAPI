@@ -13,3 +13,9 @@ app.use('/api', routes);
 app.listen(port, () => {
   console.log(`ImageProcessingAPI app listening in port ${port}`);
 });
+
+const test = (): number => {
+  return 5;
+};
+
+export default test;
