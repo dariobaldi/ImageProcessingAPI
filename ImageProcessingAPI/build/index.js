@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const index_1 = __importDefault(require("./routes/index"));
 const app = (0, express_1.default)();
-const port = 5050;
+const port = 3000;
 app.get('/', (_req, res) => {
     res.status(200).send('The server is working');
 });
