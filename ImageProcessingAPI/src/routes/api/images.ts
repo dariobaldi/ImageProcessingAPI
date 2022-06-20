@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import resizeImage from './image_processing';
+import resizeImage from './imageProcessing';
 const images = express.Router();
 
 const assetsPath = path.resolve(__dirname, '../../../assets');
