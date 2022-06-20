@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import routes from './routes/index';
 
 const app = express();
@@ -14,8 +15,3 @@ app.listen(port, () => {
   console.log(`ImageProcessingAPI app listening in port ${port}`);
 });
 
-const test = (): number => {
-  return 5;
-};
-
-export default test;

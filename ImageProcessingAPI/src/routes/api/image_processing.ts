@@ -1,24 +1,35 @@
 import sharp from 'sharp';
 import fs from 'fs';
 
-function resize_image(image: string, width: number, height: number) {
-    const new_image = `${image}_${width}x${height}.jpg`;
+const resizeImage = async (
+  image: string,
+  width: number,
+  height: number,
+  format: string
+): Promise<string> => {
+
+  const newImage = `${image}_${width}x${height}.${format}`;
   
-    if (fs.existsSync('./assets/lowres/' + new_image)) {
-      console.log('File already exists: ' + new_image);
-      return true;
-    }
-  
-    sharp('./assets/fullres/' + image + '.jpg')
-      .resize(width, height)
-      .toFile('./assets/lowres/' + new_image, function (err: Error) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('Image converted: ' + new_image);
-        }
-      });
-    return true;
+  // Check if image file exists
+  if (!fs.existsSync(`./assets/fullres/${image}.${format}`)) {
+    throw `File ${image}.${format} doesn't exists.`;
   }
+
+  // Check if resized image file exists
+  if (fs.existsSync(`./assets/lowres/${newImage}`)) {
+    return newImage;
+  }
+
+  // Resize image
+  const resizing = await sharp(`./assets/fullres/${image}.${format}`)
+    .resize(width, height)
+    .toFile(`./assets/lowres/${newImage}`);
   
-  export default resize_image;
+  if (resizing) {
+    return newImage;
+  } else {
+    throw `Unkown error creating lowres image`;
+  }
+};
+
+export default resizeImage;
