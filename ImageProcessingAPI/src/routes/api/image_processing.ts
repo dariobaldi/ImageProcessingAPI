@@ -7,9 +7,8 @@ const resizeImage = async (
   height: number,
   format: string
 ): Promise<string> => {
-
   const newImage = `${image}_${width}x${height}.${format}`;
-  
+
   // Check if image file exists
   if (!fs.existsSync(`./assets/fullres/${image}.${format}`)) {
     throw `File ${image}.${format} doesn't exists.`;
@@ -24,7 +23,7 @@ const resizeImage = async (
   const resizing = await sharp(`./assets/fullres/${image}.${format}`)
     .resize(width, height)
     .toFile(`./assets/lowres/${newImage}`);
-  
+
   if (resizing) {
     return newImage;
   } else {

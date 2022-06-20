@@ -14,7 +14,3 @@ app.use('/api', index_1.default);
 app.listen(port, () => {
     console.log(`ImageProcessingAPI app listening in port ${port}`);
 });
-const test = () => {
-    return 5;
-};
-exports.default = test;
