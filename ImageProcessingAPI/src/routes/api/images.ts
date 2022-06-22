@@ -5,7 +5,7 @@ const images = express.Router();
 
 const assetsPath = path.resolve(__dirname, '../../../assets');
 
-images.get('/', async (req, res) => {
+images.get('/', async (req, res): Promise<void> => {
   // Retrive variables from request's query
   const filename = req.query.filename as unknown as string;
   const width: number = parseInt(req.query.width as unknown as string);
@@ -19,22 +19,22 @@ images.get('/', async (req, res) => {
   const check_err = checkQueryParam(width, height, filename, format);
 
   if (check_err) {
-    console.log(check_err);
+    // console.log(check_err);
     res.status(400).send(check_err);
+    return;
   }
 
   // Resize image
-  try {
-    const newImage = await resizeImage(filename, width, height, format);
+  const [newImage, err] = await resizeImage(filename, width, height, format);
 
-    if (newImage) {
-      res.status(200).sendFile(`/lowres/${newImage}`, { root: assetsPath });
-    } else {
-      res.status(500).send(`Error: Sever did not send an image back`);
-    }
-  } catch (error: unknown) {
-    res.status(500).send(`Error: ${error}`);
+  if (newImage) {
+    res.status(200).sendFile(`/lowres/${newImage}`, { root: assetsPath });
+  } else if (err) {
+    res.status(500).send(`Error: ${err}`);
+  } else {
+    res.status(500).send(`Error: No image returned from server`);
   }
+  return;
 });
 
 //Check validity of query variables for image resizing

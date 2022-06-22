@@ -6,19 +6,19 @@ const resizeImage = async (
   width: number,
   height: number,
   format: string
-): Promise<string> => {
+): Promise<[string,string]> => {
   const newImage = `${image}_${width}x${height}.${format}`;
 
   // Check if image file exists
   if (!fs.existsSync(`./assets/fullres/${image}.${format}`)) {
     console.log(`File ${image}.${format} doesn't exists.`);
-    throw `File ${image}.${format} doesn't exists.`;
+    return ['',`File ${image}.${format} doesn't exists.`];
   }
 
   // Check if resized image file exists
   if (fs.existsSync(`./assets/lowres/${newImage}`)) {
     console.log(`File ${newImage} already exists. No resizing was needed.`);
-    return newImage;
+    return [newImage,''];
   }
 
   // Resize image
@@ -28,9 +28,9 @@ const resizeImage = async (
 
   if (resizing) {
     console.log(`File ${image}.${format} was resized.`);
-    return newImage;
+    return [newImage,''];
   } else {
-    throw `Unkown error creating lowres image`;
+    return ['',`Unkown error creating lowres image`];
   }
 };
 

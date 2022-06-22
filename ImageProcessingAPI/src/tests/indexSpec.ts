@@ -55,15 +55,15 @@ describe('Test /api/images endpoint', () => {
     // });
 
     it('call for logo.png without width parameter', async () => {
-        const response = await request.get(
-          '/api/images?width=500&height=500&format=png'
-        );
-        // console.log(response)
-        expect(response.status).toBe(400);
-        expect(response.type).toBe('text/html');
-        expect(response.text).toBe(
-          'Error: incorrect height or width (should be a number over 0)'
-        );
-      });
+      const response = await request.get(
+        '/api/images?width=500&height=500&format=png'
+      );
+      // console.log(response)
+      expect(response.status).toBe(400);
+      expect(response.type).toBe('text/html');
+      expect(response.text).toBe(
+        'Error: incorrect height or width (should be a number over 0)'
+      );
+    });
   });
 });
