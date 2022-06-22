@@ -12,32 +12,52 @@ images.get('/', async (req, res) => {
   const height: number = parseInt(req.query.height as unknown as string);
   let format: string = req.query.format as unknown as string;
 
-  const supportedFormats = ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'gif'];
-
-  //Check validity of query variables
-  if (!width || !height) {
-    res.status(400).send('Error: incorrect height or width (should be a number over 0)');
-    res.end();
-  } else if (!filename) {
-    res.status(400).send('Error: No filename');
-    res.end();
-  }
-
   if (!format) {
     format = 'jpg';
-  } else if (!supportedFormats.includes(format.toLowerCase())) {
-    res.status(400).send(`Error: Image format *.${format} not supported`);
-    res.end();
+  }
+
+  const check_err = checkQueryParam(width, height, filename, format);
+
+  if (check_err) {
+    console.log(check_err);
+    res.status(400).send(check_err);
   }
 
   // Resize image
   try {
     const newImage = await resizeImage(filename, width, height, format);
-    res.status(200).sendFile(`/lowres/${newImage}`, { root: assetsPath });
+
+    if (newImage) {
+      res.status(200).sendFile(`/lowres/${newImage}`, { root: assetsPath });
+    } else {
+      res.status(500).send(`Error: Sever did not send an image back`);
+    }
   } catch (error: unknown) {
     res.status(500).send(`Error: ${error}`);
-    res.end();
   }
 });
+
+//Check validity of query variables for image resizing
+function checkQueryParam(
+  width: number,
+  height: number,
+  filename: string,
+  format: string
+): string {
+  const supportedFormats = ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'gif'];
+  if (!width || !height) {
+    return 'Error: incorrect height or width (should be a number over 0)';
+  }
+
+  if (!filename) {
+    return 'Error: No filename';
+  }
+
+  if (!supportedFormats.includes(format.toLowerCase())) {
+    return `Error: Image format *.${format} not supported`;
+  }
+
+  return '';
+}
 
 export default images;

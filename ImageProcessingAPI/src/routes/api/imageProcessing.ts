@@ -11,11 +11,13 @@ const resizeImage = async (
 
   // Check if image file exists
   if (!fs.existsSync(`./assets/fullres/${image}.${format}`)) {
+    console.log(`File ${image}.${format} doesn't exists.`);
     throw `File ${image}.${format} doesn't exists.`;
   }
 
   // Check if resized image file exists
   if (fs.existsSync(`./assets/lowres/${newImage}`)) {
+    console.log(`File ${newImage} already exists. No resizing was needed.`);
     return newImage;
   }
 
@@ -25,6 +27,7 @@ const resizeImage = async (
     .toFile(`./assets/lowres/${newImage}`);
 
   if (resizing) {
+    console.log(`File ${image}.${format} was resized.`);
     return newImage;
   } else {
     throw `Unkown error creating lowres image`;
