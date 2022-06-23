@@ -19,13 +19,13 @@ images.get('/', async (req, res): Promise<void> => {
   const check_err = checkQueryParam(width, height, filename, format);
 
   if (check_err) {
-    // console.log(check_err);
     res.status(400).send(check_err);
     return;
   }
 
   // Resize image
-  const [newImage, err] = await resizeImage(filename, width, height, format);
+  let newImage: string, err: string;
+  [newImage, err] = await resizeImage(filename, width, height, format);
 
   if (newImage) {
     res.status(200).sendFile(`/lowres/${newImage}`, { root: assetsPath });

@@ -1,6 +1,5 @@
 import app from '../index';
 import supertest from 'supertest';
-import { exists } from 'fs';
 
 const request = supertest(app);
 
@@ -36,29 +35,15 @@ describe('Test /api/images endpoint', () => {
       const response = await request.get(
         '/api/images?filename=fjord&width=500&height=500&format=png'
       );
-      // console.log(response)
       expect(response.status).toBe(500);
       expect(response.type).toBe('text/html');
       expect(response.text).toBe("Error: File fjord.png doesn't exists.");
     });
 
-    // it('call for logo.png without width parameter', async () => {
-    //   const response = await request.get(
-    //     '/api/images?filename=logo&height=500&format=png'
-    //   );
-    //   // console.log(response)
-    //   expect(response.status).toBe(400);
-    //   expect(response.type).toBe('text/html');
-    //   expect(response.text).toBe(
-    //     'Error: incorrect height or width (should be a number over 0)'
-    //   );
-    // });
-
     it('call for logo.png without width parameter', async () => {
       const response = await request.get(
-        '/api/images?width=500&height=500&format=png'
+        '/api/images?filename=logo&height=500&format=png'
       );
-      // console.log(response)
       expect(response.status).toBe(400);
       expect(response.type).toBe('text/html');
       expect(response.text).toBe(
