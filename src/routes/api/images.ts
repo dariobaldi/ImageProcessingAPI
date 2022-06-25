@@ -3,7 +3,7 @@ import path from 'path';
 import { resizeImage, checkImageQueryParam } from './imagesProcessing';
 const images = express.Router();
 
-const assetsPath = path.resolve(__dirname, '../../../assets');
+const assetsPath: string = path.resolve(__dirname, '../../../assets');
 
 images.get(
   '/',
