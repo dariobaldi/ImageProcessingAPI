@@ -31,7 +31,7 @@ describe('Test /api/images endpoint', () => {
   });
 
   describe('Calls with wrong parameters in endpoint', () => {
-    it('Image doesn\'t exists when wrong format is provided', async () => {
+    it("Image doesn't exists when wrong format is provided", async () => {
       const response = await request.get(
         '/api/images?filename=fjord&width=500&height=500&format=png'
       );
